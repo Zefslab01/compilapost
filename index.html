@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modifica Testo</title>
+</head>
+<body>
+	<form>
+		<label for="param1">Scrivi il post:</label><br>
+		<textarea id="param1" rows="10" cols="50"></textarea><br><br>
+		<label for="param2">Risultato tiro tpc:</label>
+		<input type="text" id="param2" name="param2"><br><br>
+	</form>
+	
+	<textarea id="testo" rows="10" cols="50"></textarea><br><br>
+	
+	<button onclick="modificaTesto()">Modifica Testo</button>
+	
+	<script>
+		function modificaTesto() {
+			// prendi il testo dalla textarea
+			var testo = document.getElementById("testo").value;
+			
+			// prendi i parametri dal form
+			var param1 = document.getElementById("param1").value;
+			var param2 = document.getElementById("param2").value;
+			
+			// modifica il testo con i parametri
+			testo = testo.replace("TESTO MESSAGGIO", param1);
+			testo = testo.replace("{{param2}}", param2);
+			
+			// copia il testo modificato negli appunti
+			var dummy = document.createElement("textarea");
+			document.body.appendChild(dummy);
+			dummy.value = testo;
+			dummy.select();
+			document.execCommand("copy");
+			document.body.removeChild(dummy);
+// mostra un messaggio di alert
+alert("Il testo è stato copiato negli appunti!");
+		}
+	</script>
+</body>
+</html>
