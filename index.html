@@ -14,11 +14,12 @@
 <pre><code>
 <div style="padding-bottom: 10px; width: 590px; background: #fff; height: autopx; box-shadow: 0px 0px 5px #555; padding-top: 15px; border-right: 4px solid #C7DCEB; border-left: 4px solid #C7DCEB; text-align: justify; font-family: arial; font-size: 12px; color: #333;" align="center"><h2 style="color: black; margin: 0px; text-align: center;">&nbsp;Zakahr Antarr</h2><div style="margin-top: 0px; margin-bottom: 10px; font-family: cambria; font-size: 12px; color: black; text-transform: uppercase; text-align: center;">Ibrido | Druido/Magus | 9&deg; | NN | <a title="Zakahr Antarr" href="https://bit.ly/2TI7aPw">Scheda</a>&nbsp;| <a title="Zakahr Diceroom" href="https://rolz.org/dr?room=zakahr_dice_room">diceroom</a></div><div style="float: left; margin-left: 10px; margin-right: 5px;"><div style="border: 0px solid #c0c0c0; width: 100px; height: 200px; background: url('https://i.im.ge/2023/01/07/qeAMxL.zakahr-2.png'); background-size: cover; background-position-x:-45px"><img /></div></div><div style="height: 200px; overflow: auto; padding-left: 5px; padding-right: 5px; margin-right: 10px; font-family: arial; font-size: 12px; line-height: 1.2;"><p style="margin: 1px;">TESTO MESSAGGIO
 
-</p></div><div style="text-align: left; float: left; margin: 15px 0px 0px 10px; width: 177px; padding: 5px; border: solid #C7DCEB; border-width: 1px 0px 1px 0px; line-height: 16px; overflow: auto; height: 130px;"><b><u>HP</u></b> <i>102</i>/102
+</p></div><div style="text-align: left; float: left; margin: 15px 0px 0px 10px; width: 177px; padding: 5px; border: solid #C7DCEB; border-width: 1px 0px 1px 0px; line-height: 16px; overflow: auto; height: 130px;"><b><u>HP</u></b> <i>HPATTUALI</i>/100
 <b><u>CA</u></b> 24 <b><u>RI</u></b> 20
 <b><u>Tpc</u></b> <b>TIRO TPC</b> (danni <b>DANNO</b>)
-<b><u>Conferma Critico</u></b> <b>CRITICO</b> (danno critico <b>DANNOCRITICO</b>)
 <small>BONUS AL TPC</small>
+<b><u>Conferma Critico</u></b> <b>CRITICO</b> (danno critico <b>DANNOCRITICO</b>)
+[URL=LINKINCANTESIMO]NOMEINCANTESIMO[/URL]
 
 <b>Mischia</b>
 &#10087; 2 Artigli +15 (1d4+8/x2);
@@ -65,8 +66,6 @@ Lv3 3
 
 
 
-
-
 <table>
 <tbody>
 <tr>
@@ -75,6 +74,8 @@ Lv3 3
 	<form>
 		<label for="param1">Scrivi il post:</label><br>
 		<textarea id="param1" rows="10" cols="80"></textarea><br><br>
+		<label for="param9">HP Attuali:</label>
+		<input type="text" id="param9" name="param9">
 		<label for="param2">Risultato tiro tpc:</label>
 		<input type="text" id="param2" name="param2">
 		<label for="param2">Danno:</label>
@@ -88,12 +89,17 @@ Lv3 3
     					 <input type="text" id="dannocritico" name="dannocritico">
  				</div>
             <br><br>
-		<label for="param3">Bonus ai tpc:</label><br>
+		<label for="param3">Bonus ai tpc usati in questo turno:</label><br>
 		<textarea id="param3" style="width: 100px; height:50px"></textarea><br><br>
+		<label for="param7">Nome incantesimo lanciato:</label>
+		<input type="text" id="param7" name="param7"><br>
+		<label for="param8">Link incantesimo lanciato:</label>
+		<input type="text" id="param8" name="param8">
+		
 
 	</form>
 
-	
+	<br><br>
 	<button onclick="modificaTesto()">Modifica Testo</button>
 	
 	<script>
@@ -119,18 +125,13 @@ function modificaTesto() {
   var param4 = document.getElementById("param4").value;
   var param5 = document.getElementById("criticoSi").value;
   var param6 = document.getElementById("dannocritico").value;
+  var param7 = document.getElementById("param7").value;
+  var param8 = document.getElementById("param8").value;
+  var param9 = document.getElementById("param9").value;
   
   // controlla se il checkbox è selezionato
   var criticoCheckbox = document.getElementById("critico");
   var isCritico = criticoCheckbox.checked;
-
-  // impostare i valori predefiniti per param5 e param6 se il checkbox è selezionato
- // var param5 = "";
- // var param6 = "";
- // if (isCritico) {
- // param5 = "CRITICO";
- // param6 = "DANNOCRITICO";
-// }
 
   // sostituire l'intera stringa con una stringa vuota se il checkbox non è selezionato
   if (!isCritico) {
@@ -141,6 +142,11 @@ function modificaTesto() {
     testo = testo.replace("DANNOCRITICO", param6);
   }
 
+// eliminare la stringa [URL=LINKINCANTESIMO]NOMEINCANTESIMO[/URL] dal testo se param7 e param8 sono vuoti
+  if (param7 === "" && param8 === "") {
+    testo = testo.replace("[URL=LINKINCANTESIMO]NOMEINCANTESIMO[/URL]", "");
+  }
+
  // modifica il testo con i parametri
 			testo = testo.replace("TESTO MESSAGGIO", param1);
 			testo = testo.replace("TIRO TPC", param2);
@@ -148,7 +154,9 @@ function modificaTesto() {
 			testo = testo.replace("DANNO", param4);
 			//testo = testo.replace("CRITICO", param5);
 			//testo = testo.replace("DANNOCRITICO", param6);
-
+			testo = testo.replace("NOMEINCANTESIMO", param7);
+			//testo = testo.replace("LINKINCANTESIMO", param8);
+			//testo = testo.replace("HPATTUALI", param9);
 
 			
 			// copia il testo modificato negli appunti
